@@ -12,7 +12,7 @@ public class Application
     	SpringApplication.run(Application.class, args);
     	System.out.println("Application démarée !");
     	}catch (Exception e){
-    		System.err.println(e.getStackTrace());
+    		System.err.println(e.getStackTrace()); 
     	}
     }
 }
