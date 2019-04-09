@@ -1,5 +1,9 @@
 package com.controller;
 
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,5 +19,14 @@ public class TestController {
 		System.out.println("value: "+value);
 		
 		return value;
+	}
+	
+	@RequestMapping(value="/test", method=RequestMethod.POST)
+	@ResponseBody
+	public String get(@RequestParam Map<String,String> allParams) {
+		System.out.println("Appel POST");
+		Set<Entry<String, String>> set = allParams.entrySet();
+		System.out.println(set.toString());
+		return set.toString();
 	}
 }

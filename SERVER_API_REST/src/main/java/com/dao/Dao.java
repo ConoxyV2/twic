@@ -1,13 +1,21 @@
 package com.dao;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public abstract class Dao<T> {
 
 	protected Connection connect = null;
 
-	public Dao(Connection conn) {
-		this.connect = conn;
+	public Dao() {
+		try {
+			DriverManager.deregisterDriver(new com.mysql.jdbc.Driver());
+			connect = DriverManager.getConnection("jdbc:mysql://localhost:3308/maven_tp1?user=admin&password=admin");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
