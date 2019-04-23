@@ -14,7 +14,6 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
-import com.Application;
 import com.dto.Ville;
 
 public class DaoVille {
@@ -64,11 +63,7 @@ public class DaoVille {
 			preparedStm.setString(6, ville.getLatitude());
 			preparedStm.setString(7, ville.getLongitude());
 			int insert = preparedStm.executeUpdate();
-			if(insert == 1) {
-				return true;
-			}else {
-				return false;
-			}
+			return responseReturn(insert);
 		} catch (SQLException e) {
 			LOGGER.error("Error", e);
 			return false;
@@ -80,11 +75,7 @@ public class DaoVille {
 			PreparedStatement preparedStm = this.connect.prepareStatement(SQL_DELETE_VILLE);
 			preparedStm.setInt(1, Integer.parseInt(id));
 			int delete = preparedStm.executeUpdate();
-			if(delete == 1) {
-				return true;
-			}else {
-				return false;
-			}
+			return responseReturn(delete);
 		} catch (SQLException e) {
 			LOGGER.error("Error", e);
 			return false;
@@ -102,11 +93,7 @@ public class DaoVille {
 			preparedStm.setString(6, ville.getLatitude());
 			preparedStm.setString(7, ville.getLongitude());
 			preparedStm.setInt(8, ville.getId());
-			if(preparedStm.executeUpdate()==1) {
-				return true;
-			}else {
-				return false;
-			}
+			return responseReturn(preparedStm.executeUpdate());
 		} catch (SQLException e) {
 			LOGGER.error("Error", e);
 			return false;
@@ -193,5 +180,13 @@ public class DaoVille {
 			LOGGER.error("Error", e);
 		}
 		return ville;
+	}
+	
+	private boolean responseReturn(int response) {
+		if(response == 1) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 }

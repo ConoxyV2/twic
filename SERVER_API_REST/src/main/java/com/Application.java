@@ -13,7 +13,6 @@ public class Application
     {
     	try {
     	SpringApplication.run(Application.class, args);
-    	System.out.println("Application démarée !");
     	}catch (Exception e){
     		LOGGER.error("Error", e);
     	}
