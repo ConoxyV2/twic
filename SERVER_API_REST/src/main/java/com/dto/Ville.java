@@ -2,6 +2,7 @@ package com.dto;
 
 public class Ville {
 
+	private int id;
 	private String Code_commune_INSEE;
 	private String Nom_commune;
 	private String Code_postal;
@@ -10,6 +11,12 @@ public class Ville {
 	private String Latitude;
 	private String Longitude;
 	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getCode_commune_INSEE() {
 		return Code_commune_INSEE;
 	}

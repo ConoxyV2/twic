@@ -1,11 +1,6 @@
 package com.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +19,13 @@ public class VilleController {
 	
 	@RequestMapping(value="/ville", method=RequestMethod.GET)
 	@ResponseBody
-	public List<Ville> get(@RequestParam(value="codePostal") String codePostal) {
-		return daoVille.find(codePostal);
+	public List<Ville> get(@RequestParam(required=false, value="codePostal") String codePostal) {
+		if(codePostal != null) {
+			return daoVille.find(codePostal);
+		}else {
+			return daoVille.find();
+		}
+		
 	}
 	
 	@RequestMapping(value="/ville", method=RequestMethod.POST)
@@ -34,15 +34,15 @@ public class VilleController {
 		return daoVille.create(ville);
 	}
 	
-	@RequestMapping(value="/ville", method=RequestMethod.PUT)
+	@RequestMapping(value="/ville", method=RequestMethod.PUT, consumes="application/json", produces = "application/json")
 	@ResponseBody
-	public boolean put(@RequestBody List<Ville> villes) {
-		return daoVille.update(villes.get(0), villes.get(1));
+	public boolean put(@RequestBody Ville ville) {
+		return daoVille.update(ville);
 	}
 	
 	@RequestMapping(value="/ville", method=RequestMethod.DELETE)
 	@ResponseBody
-	public boolean delete(@RequestBody Ville ville) {
-		return daoVille.delete(ville);
+	public boolean delete(@RequestParam(required=true, value="id") String id) {
+		return daoVille.delete(id);
 	}
 }
