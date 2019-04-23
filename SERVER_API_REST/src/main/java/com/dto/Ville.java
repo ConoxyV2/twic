@@ -59,7 +59,4 @@ public class Ville {
 	public void setLongitude(String longitude) {
 		Longitude = longitude;
 	}
-	public String toString() {
-		return "Ville : Code_commune_INSEE="+Code_commune_INSEE+" Nom_commune="+Nom_commune;
-	}
 }

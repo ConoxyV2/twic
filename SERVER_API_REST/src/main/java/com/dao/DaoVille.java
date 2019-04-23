@@ -1,5 +1,8 @@
 package com.dao;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -7,7 +10,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
+import org.apache.log4j.Logger;
+
+import com.Application;
 import com.dto.Ville;
 
 public class DaoVille {
@@ -19,14 +26,29 @@ public class DaoVille {
 	private final String SQL_SELECT_VILLE_CP = "SELECT * FROM ville_france WHERE Code_postal=?;";
 	private final String SQL_SELECT_VILLE_ID = "SELECT * FROM ville_france WHERE id=?;";
 	private final String SQL_SELECT_VILLE = "SELECT * FROM ville_france;";
+	private static final Logger LOGGER = Logger.getLogger(DaoVille.class);
 	
 	public DaoVille() {
 		try {
+			Properties prop = new Properties();
+			String propFileName = "config.properties";
+ 
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+ 
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			String password = prop.getProperty("password");
+			
+			
 			DriverManager.deregisterDriver(new com.mysql.jdbc.Driver());
-			connect = DriverManager.getConnection("jdbc:mysql://localhost:3308/maven_tp1?user=admin&password=admin");
+			connect = DriverManager.getConnection("jdbc:mysql://localhost:3308/maven_tp1?user=admin&password="+password+"");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.error("Error", e);
+		} catch (IOException e) {
+			LOGGER.error("Error", e);
 		}
 	}
 
@@ -48,7 +70,7 @@ public class DaoVille {
 				return false;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.error("Error", e);
 			return false;
 		}
 	}
@@ -64,7 +86,7 @@ public class DaoVille {
 				return false;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.error("Error", e);
 			return false;
 		}
 	}
@@ -86,7 +108,7 @@ public class DaoVille {
 				return false;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.error("Error", e);
 			return false;
 		}
 	}
@@ -113,7 +135,7 @@ public class DaoVille {
 			rSet.close();
 			preparedStm.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.error("Error", e);
 		}
 		return villes;
 	}
@@ -141,7 +163,7 @@ public class DaoVille {
 			rSet.close();
 			preparedStm.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.error("Error", e);
 		}
 		return villes;
 	}
@@ -168,7 +190,7 @@ public class DaoVille {
 			rSet.close();
 			preparedStm.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.error("Error", e);
 		}
 		return ville;
 	}
